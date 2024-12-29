@@ -89,11 +89,6 @@ The project adheres to **Clean Architecture** principles, separating the app int
 
 ---
 
-## License
-This project is licensed under the MIT License.
-
----
-
 ## Contribution
 Contributions are welcome! Please fork this repository and submit a pull request.
 
