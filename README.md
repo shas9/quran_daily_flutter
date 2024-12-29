@@ -1,23 +1,101 @@
-# quran_daily
+# Quran Daily
 
-Doctor summary (to see all details, run flutter doctor -v):
-[✓] Flutter (Channel stable, 3.24.0, on macOS 14.3 23D56 darwin-arm64, locale en-US)
-[!] Android toolchain - develop for Android devices (Android SDK version 35.0.0)
-    ✗ cmdline-tools component is missing
-      Run `path/to/sdkmanager --install "cmdline-tools;latest"`
-      See https://developer.android.com/studio/command-line for more details.
-    ✗ Android license status unknown.
-      Run `flutter doctor --android-licenses` to accept the SDK licenses.
-      See https://flutter.dev/to/macos-android-setup for more details.
-[✓] Xcode - develop for iOS and macOS (Xcode 15.4)
-[✓] Chrome - develop for the web
-[✓] Android Studio (version 2024.1)
-[✓] VS Code (version 1.95.3)
-[✓] Connected device (5 available)
-    ! Error: Browsing on the local area network for Shahwat’s iPhone. Ensure the device is unlocked and attached with a cable
-      or associated with the same local area network as this Mac.
-      The device must be opted into Developer Mode to connect wirelessly. (code -27)
-    ! Error: Browsing on the local area network for Sanjida’s iPhone. Ensure the device is unlocked and attached with a cable
-      or associated with the same local area network as this Mac.
-      The device must be opted into Developer Mode to connect wirelessly. (code -27)
-[✓] Network resources
+## Overview
+**Quran Daily** is a modern Flutter application designed to facilitate daily Quran reading. It offers features such as bookmark saving, Bangla translations, pronunciations, and an intuitive user interface. Built using Flutter 3.24.0 and Dart SDK 3.5.0, it employs **BLoC**, the **repository pattern**, and **clean architecture** for scalability and maintainability.
+
+---
+
+## Features
+- **Search by Surah** – Quickly locate Surahs using the built-in search functionality.
+- **Save a Bookmark** – Bookmark the last read Ayah to resume reading seamlessly.
+- **Clean UI** – Minimalist and distraction-free user interface design.
+- **Easy Navigation** – Effortlessly navigate to each Ayah for an enhanced reading experience.
+- **Bangla Translations** – Support for Bangla translations and pronunciations.
+
+---
+
+## API Usage
+The app fetches Quran data using the **Al-Quran Cloud API**. 
+For more details, visit: [alquran.cloud](https://alquran.cloud)
+
+---
+
+## Technical Details
+### **Framework and Tools:**
+- **Flutter Version:** 3.24.0
+- **Dart SDK:** 3.5.0
+- **State Management:** flutter_bloc (v8.1.4)
+- **Networking:** dio (v5.4.0)
+- **Local Storage:** shared_preferences (v2.0.15)
+- **Error Logging:** logger (v2.4.0)
+- **Functional Programming:** dartz (v0.10.1) (Planning to remove)
+
+### **Project Structure:**
+The project adheres to **Clean Architecture** principles, separating the app into layers:
+1. **Presentation Layer:** Handles UI and user interactions (Widgets, BLoC).
+2. **Domain Layer:** Business logic and use cases.
+3. **Data Layer:** Repositories, API calls, and data sources.
+
+---
+
+## Installation
+### **Prerequisites:**
+- Flutter SDK 3.24.0 or later.
+- Dart SDK 3.5.0 or later.
+- Android Studio or Visual Studio Code.
+- Android and iOS emulators or physical devices.
+
+### **Steps:**
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/shas9/quran_daily.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd quran_daily
+   ```
+3. Install dependencies:
+   ```bash
+   flutter pub get
+   ```
+4. Run the app:
+   ```bash
+   flutter run
+   ```
+
+---
+
+## Troubleshooting
+### Android Toolchain Issues
+- **cmdline-tools component is missing:**
+  ```bash
+  path/to/sdkmanager --install "cmdline-tools;latest"
+  ```
+- **Accept Android SDK licenses:**
+  ```bash
+  flutter doctor --android-licenses
+  ```
+
+### Device Connection Issues (iPhones)
+- Ensure the device is unlocked and connected via cable or same Wi-Fi network.
+- Opt into **Developer Mode** on the device.
+
+---
+
+## Author
+**Shahwat Hasnaine**  
+**Herdsmen, Venture 144**  
+**Email:** shahwathasnaine@gmail.com  
+
+---
+
+## License
+This project is licensed under the MIT License.
+
+---
+
+## Contribution
+Contributions are welcome! Please fork this repository and submit a pull request.
+
+---
+
