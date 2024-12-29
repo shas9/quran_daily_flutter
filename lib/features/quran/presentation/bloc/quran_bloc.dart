@@ -13,17 +13,7 @@ part 'quran_event.dart';
 part 'quran_state.dart';
 
 class QuranBloc extends Bloc<QuranEvent, QuranState> {
-  final GetSurahs getSurahs;
-  final GetAyahs getAyahs;
-  final SetBookmark setBookmark;
-  final GetLastBookmark getLastBookmark;
-
-  QuranBloc({
-    required this.getSurahs,
-    required this.getAyahs,
-    required this.setBookmark,
-    required this.getLastBookmark,
-  }) : super(QuranInitial()) {
+  QuranBloc() : super(QuranInitial()) {
     on<LoadSurahs>(_onLoadSurahs);
     on<LoadAyahs>(_onLoadAyahs);
     on<SetAyahBookmark>(_onSetBookmark);
@@ -42,24 +32,28 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
 
   Future<void> _onLoadAyahs(LoadAyahs event, Emitter<QuranState> emit) async {
     emit(QuranLoading());
-    final result = await getAyahs(GetAyahsParams(surahNumber: event.surahNumber));
-    result.fold(
-      (failure) => emit(QuranError(message: failure.message)),
-      (ayahs) => emit(AyahsLoaded(ayahs: ayahs)),
-    );
+    // final result = await getAyahs(GetAyahsParams(surahNumber: event.surahNumber));
+    // result.fold(
+    //   (failure) => emit(QuranError(message: failure.message)),
+    //   (ayahs) => emit(AyahsLoaded(ayahs: ayahs)),
+    // );
+
+    Future.delayed(Duration(seconds: 1));
+
+    emit(AyahsLoaded(ayahs: []));
   }
 
   Future<void> _onSetBookmark(SetAyahBookmark event, Emitter<QuranState> emit) async {
-    final result = await setBookmark(
-      SetBookmarkParams(
-        surahNumber: event.surahNumber,
-        ayahNumber: event.ayahNumber, surahName: '',
-      ),
-    );
-    result.fold(
-      (failure) => emit(QuranError(message: failure.message)),
-      (_) => emit(BookmarkSet()),
-    );
+    // final result = await setBookmark(
+    //   SetBookmarkParams(
+    //     surahNumber: event.surahNumber,
+    //     ayahNumber: event.ayahNumber, surahName: '',
+    //   ),
+    // );
+    // result.fold(
+    //   (failure) => emit(QuranError(message: failure.message)),
+    //   (_) => emit(BookmarkSet()),
+    // );
   }
 
   void _onSearchSurah(SearchSurah event, Emitter<QuranState> emit) {

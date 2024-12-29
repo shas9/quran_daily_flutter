@@ -3,10 +3,11 @@ part of 'quran_bloc.dart';
 abstract class QuranState {}
 
 class QuranInitial extends QuranState {}
+class QuranActionState extends QuranState {}
 
 class QuranLoading extends QuranState {}
 
-class QuranError extends QuranState {
+class QuranError extends QuranActionState {
   final String message;
   QuranError({required this.message});
 }

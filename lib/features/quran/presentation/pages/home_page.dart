@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quran_daily/features/quran/domain/entities/surah.dart';
 import 'package:quran_daily/features/quran/presentation/bloc/quran_bloc.dart';
 import 'package:quran_daily/features/quran/presentation/widgets/surah_list_tile.dart';
 
@@ -8,14 +9,15 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  final QuranBloc quranBloc = QuranBloc();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quran App'),
+        title: const Text('Quran Daily'),
         actions: [
           IconButton(
             icon: const Icon(Icons.bookmark),
             onPressed: () {
-              context.read<QuranBloc>().add(LoadLastBookmark());
+              
             },
           ),
         ],
@@ -27,10 +29,12 @@ class HomePage extends StatelessWidget {
             child: SearchBar(),
           ),
           Expanded(
-            child: BlocBuilder<QuranBloc, QuranState>(
+            child: BlocConsumer<QuranBloc, QuranState>(
+              bloc: quranBloc,
+              listener: (context, state) { },
               builder: (context, state) {
                 if (state is QuranLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator(color: Colors.black,));
                 } else if (state is SurahsLoaded) {
                   return ListView.builder(
                     itemCount: state.surahs.length,
@@ -42,7 +46,23 @@ class HomePage extends StatelessWidget {
                 } else if (state is QuranError) {
                   return Center(child: Text(state.message));
                 }
-                return const SizedBox();
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SurahListTile(surah: Surah.generateDummy()),
+                      SurahListTile(surah: Surah.generateDummy()),
+                      SurahListTile(surah: Surah.generateDummy()),
+                      SurahListTile(surah: Surah.generateDummy()),
+                      SurahListTile(surah: Surah.generateDummy()),
+                      SurahListTile(surah: Surah.generateDummy()),
+                      SurahListTile(surah: Surah.generateDummy()),
+                      SurahListTile(surah: Surah.generateDummy()),
+                      SurahListTile(surah: Surah.generateDummy()),
+                      SurahListTile(surah: Surah.generateDummy()),
+                      SurahListTile(surah: Surah.generateDummy()),
+                    ],
+                  ),
+                );
               },
             ),
           ),

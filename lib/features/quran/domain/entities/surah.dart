@@ -17,6 +17,18 @@ class Surah extends Equatable {
     required this.revelationType,
   });
 
+  // Static method to generate a dummy Surah
+  static Surah generateDummy() {
+    return const Surah(
+      number: 1,
+      name: 'الفاتحة',
+      englishName: 'Al-Fatiha',
+      englishNameTranslation: 'The Opening',
+      numberOfAyahs: 7,
+      revelationType: 'Meccan',
+    );
+  }
+
   @override
   List<Object?> get props => [
         number,
