@@ -48,7 +48,7 @@ The project adheres to **Clean Architecture** principles, separating the app int
 ### **Steps:**
 1. Clone the repository:
    ```bash
-   git clone https://github.com/shas9/quran_daily.git
+   git clone https://github.com/shas9/quran_daily_flutter.git
    ```
 2. Navigate to the project directory:
    ```bash
