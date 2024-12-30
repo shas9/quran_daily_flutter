@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_daily/features/quran/domain/entities/surah.dart';
 import 'package:quran_daily/features/quran/presentation/bloc/quran_bloc.dart';
+import 'package:quran_daily/features/quran/presentation/pages/surah_detail_page.dart';
 
 class SurahListTile extends StatelessWidget {
   final Surah surah;
+  final QuranBloc quranBloc;
 
-  const SurahListTile({super.key, required this.surah});
+  const SurahListTile({super.key, required this.surah, required this.quranBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class SurahListTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withOpacity(0.15),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -29,7 +30,12 @@ class SurahListTile extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(15),
             onTap: () {
-              context.read<QuranBloc>().add(LoadAyahs(surahNumber: surah.number));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SurahDetailPage(surah: surah),
+                ),
+              );
             },
             child: Padding(
               padding: const EdgeInsets.all(16.0),
