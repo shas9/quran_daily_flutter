@@ -13,4 +13,4 @@ class GetLastBookmark implements UseCase<BookmarkData, dynamic> {
   Future<Either<Failure, BookmarkData>> call(dynamic params) async {
     return await repository.getLastBookmark();
   }
-}
+} 

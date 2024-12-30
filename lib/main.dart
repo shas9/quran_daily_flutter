@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quran_daily/features/quran/presentation/pages/home_page.dart';
+import 'package:quran_daily/presentation/pages/home_page/widgets/home_page.dart';
 
 void main() {
   runApp(const MainApp());
