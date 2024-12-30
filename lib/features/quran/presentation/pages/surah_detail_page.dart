@@ -13,7 +13,7 @@ class SurahDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(surah.englishName),
+        title: Text(surah.nativeName),
       ),
       body: BlocBuilder<QuranBloc, QuranState>(
         builder: (context, state) {

@@ -61,8 +61,8 @@ class QuranBloc extends Bloc<QuranEvent, QuranState> {
       final surahs = (state as SurahsLoaded).surahs;
       final filteredSurahs = surahs
           .where((surah) =>
-              surah.name.toLowerCase().contains(event.query.toLowerCase()) ||
-              surah.englishName.toLowerCase().contains(event.query.toLowerCase()))
+              surah.arabicName.toLowerCase().contains(event.query.toLowerCase()) ||
+              surah.nativeName.toLowerCase().contains(event.query.toLowerCase()))
           .toList();
       emit(SurahsLoaded(surahs: filteredSurahs));
     }

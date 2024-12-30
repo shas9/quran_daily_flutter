@@ -2,17 +2,17 @@ import 'package:equatable/equatable.dart';
 
 class Surah extends Equatable {
   final int number;
-  final String name;
-  final String englishName;
-  final String englishNameTranslation;
+  final String arabicName;
+  final String nativeName;
+  final String nativeTitle;
   final int numberOfAyahs;
   final String revelationType;
 
   const Surah({
     required this.number,
-    required this.name,
-    required this.englishName,
-    required this.englishNameTranslation,
+    required this.arabicName,
+    required this.nativeName,
+    required this.nativeTitle,
     required this.numberOfAyahs,
     required this.revelationType,
   });
@@ -21,9 +21,9 @@ class Surah extends Equatable {
   static Surah generateDummy() {
     return const Surah(
       number: 1,
-      name: 'الفاتحة',
-      englishName: 'Al-Fatiha',
-      englishNameTranslation: 'The Opening',
+      arabicName: 'الفاتحة',
+      nativeName: 'Al-Fatiha',
+      nativeTitle: 'The Opening',
       numberOfAyahs: 7,
       revelationType: 'Meccan',
     );
@@ -32,9 +32,9 @@ class Surah extends Equatable {
   @override
   List<Object?> get props => [
         number,
-        name,
-        englishName,
-        englishNameTranslation,
+        arabicName,
+        nativeName,
+        nativeTitle,
         numberOfAyahs,
         revelationType,
       ];
