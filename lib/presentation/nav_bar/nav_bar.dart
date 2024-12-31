@@ -22,7 +22,7 @@ class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     if (mounted) {
-      controller = TabController(length: 5, vsync: this);
+      controller = TabController(length: 3, vsync: this);
     }
   }
 
@@ -34,69 +34,51 @@ class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // final theme = Theme.of(context).extension<CustomColors>()!;
-    // final localized = AppLocalizations.of(context)!;
-
-    var selectedIndex = widget.currentIndex;
-    if (selectedIndex < 0) {
-      selectedIndex = 0;
-    } else if (selectedIndex >= controller.length) {
-      selectedIndex = controller.length - 1;
-    }
-    if (selectedIndex >= 0 && selectedIndex < controller.length) {
-      controller.animateTo(selectedIndex);
-    }
+    var selectedIndex = widget.currentIndex.clamp(0, controller.length - 1);
+    controller.animateTo(selectedIndex);
 
     return Scaffold(
       key: globalScaffoldKey,
       backgroundColor: Colors.white,
       drawerEnableOpenDragGesture: false,
-      bottomNavigationBar: Material(
-        elevation: 8,
-        color: Colors.white,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero, // No rounded corners
-          side: BorderSide(
-            color: Colors.grey, // Border color
-            width: 0.1, // Border width
-          ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF1F4C6B).withOpacity(0.1),
+              blurRadius: 20,
+              offset: const Offset(0, -5),
+            ),
+          ],
         ),
         child: SafeArea(
-          child: TabBar(
-            controller: controller,
-            indicatorColor: Colors.transparent,
-            dividerColor: Colors.transparent,
-            labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-            onTap: (index) {
-              navigateToOtherScreen(index);
-            },
-            labelStyle: const TextStyle(
-                fontSize: 11,
-                color: Colors.blue,
-                fontWeight: FontWeight.w500,
-                overflow: TextOverflow.ellipsis),
-            unselectedLabelStyle: const TextStyle(
-                fontSize: 11,
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-                overflow: TextOverflow.ellipsis),
-            tabs: [
-              bottomNavItem(
-                Icons.home,
-                'Home',
-                widget.currentIndex == 0,
-              ),
-              bottomNavItem(
-                Icons.bookmark,
-                'Bookmark',
-                widget.currentIndex == 1,
-              ),
-              bottomNavItem(
-                Icons.settings,
-                'Settings',
-                widget.currentIndex == 2,
-              ),
-            ],
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: TabBar(
+              controller: controller,
+              indicatorColor: Colors.transparent,
+              dividerColor: Colors.transparent,
+              labelPadding: EdgeInsets.zero,
+              onTap: navigateToOtherScreen,
+              tabs: [
+                _buildNavItem(
+                  Icons.menu_book_rounded,
+                  'Quran',
+                  widget.currentIndex == 0,
+                ),
+                _buildNavItem(
+                  Icons.bookmark_rounded,
+                  'Bookmarks',
+                  widget.currentIndex == 1,
+                ),
+                _buildNavItem(
+                  Icons.settings_rounded,
+                  'Settings',
+                  widget.currentIndex == 2,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -104,37 +86,61 @@ class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
     );
   }
 
-  Tab bottomNavItem(
-    IconData img,
-    String label,
-    bool isSelected,
-  ) {
+  Widget _buildNavItem(IconData icon, String label, bool isSelected) {
     return Tab(
-      icon: Icon(img),
-      child: Text(
-        label,
-        textAlign: TextAlign.center,
+      height: 64,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: isSelected
+              ? const LinearGradient(
+                  colors: [Color(0xFF1F4C6B), Color(0xFF2C6E9B)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : null,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: isSelected ? Colors.white : const Color(0xFF1F4C6B),
+              size: 24,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: isSelected ? Colors.white : const Color(0xFF1F4C6B),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   void navigateToOtherScreen(int index) {
     var canPop = GoRouter.of(context).routerDelegate.canPop();
-
-    if (index == 0) {
-      AppRouter.go(RouteNames.home);
-    } else if (index == 1) {
-      if (canPop) {
-        AppRouter.replaceAndNavigate(RouteNames.bookmarkPage);
-      } else {
-        AppRouter.navigate(RouteNames.bookmarkPage);
-      }
-    } else if (index == 2) {
-      if (canPop) {
-        AppRouter.replaceAndNavigate(RouteNames.settings);
-      } else {
-        AppRouter.navigate(RouteNames.settings);
-      }
+    
+    switch (index) {
+      case 0:
+        AppRouter.go(RouteNames.home);
+        break;
+      case 1:
+        canPop 
+          ? AppRouter.replaceAndNavigate(RouteNames.bookmarkPage)
+          : AppRouter.navigate(RouteNames.bookmarkPage);
+        break;
+      case 2:
+        canPop
+          ? AppRouter.replaceAndNavigate(RouteNames.settings)
+          : AppRouter.navigate(RouteNames.settings);
+        break;
     }
   }
 }

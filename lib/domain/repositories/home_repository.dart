@@ -5,9 +5,6 @@ import 'package:quran_daily/domain/entities/surah.dart';
 
 abstract class HomeRepository {
   Future<List<Surah>> getSurahs();
-  // Future<List<Ayah>> getAyahsBySurah(int surahNumber);
-  // void setBookmark(int surahNumber, int ayahNumber);
-  // Future<BookmarkData> getLastBookmark();
 }
 
 class HomeRepositoryImpl implements HomeRepository {

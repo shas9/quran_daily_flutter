@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quran_daily/core/router/app_router.dart';
+import 'package:quran_daily/core/router/route_names.dart';
 import 'package:quran_daily/domain/entities/surah.dart';
 import 'package:quran_daily/presentation/pages/home_page/bloc/home_bloc.dart';
 import 'package:quran_daily/presentation/pages/surah_detail_page/widgets/surah_detail_page.dart';
@@ -30,12 +32,9 @@ class SurahListTile extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(15),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SurahDetailPage(surahNumber: 25),
-                ),
-              );
+              AppRouter.navigate(RouteNames.surahDetails, pathParameters: {
+                AppRouter.surahNumberKey: surah.number.toString(),
+              });
             },
             child: Padding(
               padding: const EdgeInsets.all(16.0),

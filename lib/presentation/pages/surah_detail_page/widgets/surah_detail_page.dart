@@ -1,75 +1,186 @@
 import 'package:flutter/material.dart';
-import 'package:quran_daily/domain/entities/ayah.dart';
-import 'package:quran_daily/domain/entities/surah.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kiwi/kiwi.dart';
+import 'package:quran_daily/data/models/surah_details_model.dart';
+import 'package:quran_daily/presentation/pages/surah_detail_page/bloc/surah_detail_bloc.dart';
 import 'package:quran_daily/presentation/pages/surah_detail_page/widgets/ayah_card.dart';
 
 class SurahDetailPage extends StatelessWidget {
-  late Surah surah;
+  final int surahNumber;
+  final SurahDetailBloc surahDetailBloc = KiwiContainer().resolve<SurahDetailBloc>();
 
-  SurahDetailPage({super.key, required int surahNumber}) {
-    surah = Surah(
-      number: surahNumber,
-      nativeName: 'Al-Fatihah',
-      nativeTitle: 'The Opening',
-      arabicName: 'الفاتحة',
-      revelationType: 'The Opening',
-      numberOfAyahs: 7,
-    );
+  SurahDetailPage({super.key, required this.surahNumber}) {
+    surahDetailBloc.add(LoadSurahDetailEvent(surahNumber));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(surah.nativeName),
+        elevation: 0,
+        backgroundColor: const Color(0xFF1F4C6B),
+        title: BlocBuilder<SurahDetailBloc, SurahDetailState>(
+          bloc: surahDetailBloc,
+          builder: (context, state) {
+            if (state is SurahDetailLoaded) {
+              return Text(
+                state.surahDetailsModel.englishName,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            }
+            return const Text('Loading...', style: TextStyle(color: Colors.white));
+          },
+        ),
       ),
-      body: FutureBuilder(
-        future: _fetchAyahs(surah.number), // Replace with your data fetching method
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (snapshot.hasData) {
-            final ayahs = snapshot.data as List<Ayah>;
-            return ListView.builder(
-              itemCount: ayahs.length,
-              itemBuilder: (context, index) {
-                final ayah = ayahs[index];
-                return AyahCard(
-                  ayah: ayah,
-                  surahNumber: surah.number,
-                );
-              },
+      body: BlocConsumer<SurahDetailBloc, SurahDetailState>(
+        bloc: surahDetailBloc,
+        listener: (context, state) {
+          if (state is SurahDetailError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${state.message}')),
             );
           }
-          return const SizedBox();
+        },
+        builder: (context, state) {
+          if (state is SurahDetailLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is SurahDetailError) {
+            return Center(child: Text('Error: ${state.message}'));
+          } else if (state is SurahDetailLoaded) {
+            return CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: _buildSurahHeader(state.surahDetailsModel),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => AyahCard(
+                      ayah: state.surahDetailsModel.ayahs[index],
+                    ),
+                    childCount: state.surahDetailsModel.ayahs.length,
+                  ),
+                ),
+              ],
+            );
+          }
+          return const Center(child: Text('Unexpected state'));
         },
       ),
     );
   }
 
-  Future<List<Ayah>> _fetchAyahs(int surahNumber) async {
-    // Dummy data for demonstration
-    return Future.value([
-      const Ayah(
-        number: 1,
-        text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
-        banglaTranslation: 'পরম করুণাময়, অতি দয়ালু আল্লাহর নামে শুরু করছি।',
-        banglaPronunciation: 'Bismillahir Rahmanir Rahim',
+  Widget _buildSurahHeader(SurahDetailsModel surah) {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF1F4C6B), Color(0xFF2C6E9B)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
       ),
-      const Ayah(
-        number: 2,
-        text: 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
-        banglaTranslation: 'সকল প্রশংসা বিশ্বজগতের প্রতিপালক আল্লাহর।',
-        banglaPronunciation: 'Alhamdu lillahi rabbil alamin',
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
+          Container(
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withOpacity(0.1),
+              border: Border.all(color: Colors.white.withOpacity(0.2), width: 2),
+            ),
+            child: Center(
+              child: Text(
+                surah.name,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            surah.englishName,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            surah.englishNameTranslation,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.8),
+              fontSize: 18,
+            ),
+          ),
+          const SizedBox(height: 20),
+          _buildInfoRow(
+            'Revelation Type',
+            surah.revelationType,
+            Icons.history,
+          ),
+          _buildInfoRow(
+            'Number of Verses',
+            '${surah.numberOfAyahs}',
+            Icons.format_list_numbered,
+          ),
+          _buildInfoRow(
+            'Surah Number',
+            '${surah.number}',
+            Icons.bookmark,
+          ),
+          const SizedBox(height: 20),
+          Container(
+            height: 30,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, -5),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-      const Ayah(
-        number: 3,
-        text: 'الرَّحْمَٰنِ الرَّحِيمِ',
-        banglaTranslation: 'যিনি পরম করুণাময়, অতি দয়ালু।',
-        banglaPronunciation: 'Ar-Rahmanir-Rahim',
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.white.withOpacity(0.7), size: 20),
+          const SizedBox(width: 12),
+          Text(
+            '$label:',
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.7),
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
-    ]);
+    );
   }
 }

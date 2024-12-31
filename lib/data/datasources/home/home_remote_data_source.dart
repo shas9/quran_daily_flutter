@@ -2,7 +2,6 @@ import 'package:quran_daily/core/api/api_call.dart';
 import 'package:quran_daily/core/constants/api_urls.dart';
 import 'package:quran_daily/core/errors/exceptions.dart';
 import 'package:quran_daily/core/network/dio_client.dart';
-import 'package:quran_daily/data/models/ayah_model.dart';
 import 'package:quran_daily/data/models/surah_model.dart';
 
 abstract class HomeRemoteDataSource {

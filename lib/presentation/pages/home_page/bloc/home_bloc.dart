@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quran_daily/domain/entities/ayah.dart';
 import 'package:quran_daily/domain/entities/surah.dart';
 import 'package:quran_daily/domain/repositories/home_repository.dart';
 
@@ -23,29 +24,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void _onSearchSurah(SearchSurah event, Emitter<HomeState> emit) {
-    if (state is SurahsLoaded) {
-      final surahs = (state as SurahsLoaded).surahs;
-      final filteredSurahs = surahs
-          .where((surah) =>
-              surah.arabicName.toLowerCase().contains(event.query.toLowerCase()) ||
-              surah.nativeName.toLowerCase().contains(event.query.toLowerCase()))
-          .toList();
-      emit(SurahsLoaded(surahs: filteredSurahs));
-    }
+    // if (state is SurahsLoaded) {
+    //   final surahs = (state as SurahsLoaded).surahs;
+    //   final filteredSurahs = surahs
+    //       .where((surah) =>
+    //           surah.arabicName.toLowerCase().contains(event.query.toLowerCase()) ||
+    //           surah.nativeName.toLowerCase().contains(event.query.toLowerCase()))
+    //       .toList();
+    //   emit(SurahsLoaded(surahs: filteredSurahs));
+    // }
   }
-
-  // Future<void> _onLoadAyahs(LoadAyahs event, Emitter<HomeState> emit) async {
-  //   emit(HomeLoading());
-  //   // final result = await getAyahs(GetAyahsParams(surahNumber: event.surahNumber));
-  //   // result.fold(
-  //   //   (failure) => emit(HomeError(message: failure.message)),
-  //   //   (ayahs) => emit(AyahsLoaded(ayahs: ayahs)),
-  //   // );
-
-  //   Future.delayed(const Duration(seconds: 1));
-
-  //   emit(AyahsLoaded(ayahs: []));
-  // }
 
   // Future<void> _onSetBookmark(SetAyahBookmark event, Emitter<HomeState> emit) async {
   //   // final result = await setBookmark(

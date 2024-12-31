@@ -61,7 +61,7 @@ class AppRouter {
         path: PathNames.surahDetails,
         pageBuilder: (BuildContext context, GoRouterState state) {
           return NoTransitionPage(
-            child: SurahDetailPage(surahNumber: state.pathParameters[surahNumberKey]! as int)
+            child: SurahDetailPage(surahNumber: int.parse(state.pathParameters[surahNumberKey]!))
           );
         },
       ),

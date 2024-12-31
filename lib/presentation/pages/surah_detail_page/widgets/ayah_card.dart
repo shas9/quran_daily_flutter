@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_daily/domain/entities/ayah.dart';
-import 'package:quran_daily/presentation/pages/home_page/bloc/home_bloc.dart';
 
 class AyahCard extends StatelessWidget {
   final Ayah ayah;
-  final int surahNumber;
 
   const AyahCard({
     super.key,
     required this.ayah,
-    required this.surahNumber,
   });
 
   @override
