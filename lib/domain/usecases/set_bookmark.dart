@@ -1,17 +1,16 @@
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:quran_daily/core/errors/failures.dart';
 import 'package:quran_daily/core/usecase/usecase.dart';
-import 'package:quran_daily/domain/repositories/quran_repositories.dart';
+import 'package:quran_daily/domain/repositories/home_repository.dart';
 
 class SetBookmark implements UseCase<void, SetBookmarkParams> {
-  final QuranRepository repository;
+  final HomeRepository repository;
 
   SetBookmark(this.repository);
 
   @override
-  Future<Either<Failure, void>> call(SetBookmarkParams params) async {
-    return await repository.setBookmark(params.surahNumber, params.ayahNumber);
+  Future<void> call(SetBookmarkParams params) async {
+    throw UnimplementedError();
+    // return repository.setBookmark(params.surahNumber, params.ayahNumber);
   }
 }
 

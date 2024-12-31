@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:quran_daily/domain/entities/surah.dart';
-import 'package:quran_daily/presentation/pages/home_page/bloc/quran_bloc.dart';
+import 'package:quran_daily/presentation/pages/home_page/bloc/home_bloc.dart';
 import 'package:quran_daily/presentation/pages/home_page/widgets/search_bar.dart';
 import 'package:quran_daily/presentation/pages/home_page/widgets/surah_list_tile.dart';
 
 class HomePage extends StatelessWidget {
-  final QuranBloc quranBloc = QuranBloc();
+  final HomeBloc homeBloc = KiwiContainer().resolve<HomeBloc>();
 
-  HomePage({super.key});
+  HomePage({super.key}) {
+    homeBloc.add(LoadSurahs());
+  }
 
   @override
   Widget build(BuildContext context) {
-  final QuranBloc quranBloc = QuranBloc();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Quran Daily'),
@@ -32,40 +34,24 @@ class HomePage extends StatelessWidget {
             child: CustomSearchBar(),
           ),
           Expanded(
-            child: BlocConsumer<QuranBloc, QuranState>(
-              bloc: quranBloc,
+            child: BlocConsumer<HomeBloc, HomeState>(
+              bloc: homeBloc,
               listener: (context, state) { },
               builder: (context, state) {
-                if (state is QuranLoading) {
+                if (state is HomeLoadingState) {
                   return const Center(child: CircularProgressIndicator(color: Colors.black,));
                 } else if (state is SurahsLoaded) {
                   return ListView.builder(
                     itemCount: state.surahs.length,
                     itemBuilder: (context, index) {
                       final surah = state.surahs[index];
-                      return SurahListTile(surah: surah, quranBloc: quranBloc,);
+                      return SurahListTile(surah: surah, homeBloc: homeBloc,);
                     },
                   );
-                } else if (state is QuranError) {
+                } else if (state is HomeErrorState) {
                   return Center(child: Text(state.message));
                 }
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SurahListTile(surah: Surah.generateDummy(), quranBloc: quranBloc,),
-                      SurahListTile(surah: Surah.generateDummy(), quranBloc: quranBloc,),
-                      SurahListTile(surah: Surah.generateDummy(), quranBloc: quranBloc,),
-                      SurahListTile(surah: Surah.generateDummy(), quranBloc: quranBloc,),
-                      SurahListTile(surah: Surah.generateDummy(), quranBloc: quranBloc,),
-                      SurahListTile(surah: Surah.generateDummy(), quranBloc: quranBloc,),
-                      SurahListTile(surah: Surah.generateDummy(), quranBloc: quranBloc,),
-                      SurahListTile(surah: Surah.generateDummy(), quranBloc: quranBloc,),
-                      SurahListTile(surah: Surah.generateDummy(), quranBloc: quranBloc,),
-                      SurahListTile(surah: Surah.generateDummy(), quranBloc: quranBloc,),
-                      SurahListTile(surah: Surah.generateDummy(), quranBloc: quranBloc,),
-                    ],
-                  ),
-                );
+                return const SizedBox();
               },
             ),
           ),

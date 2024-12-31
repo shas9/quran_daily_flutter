@@ -1,18 +1,17 @@
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:quran_daily/core/errors/failures.dart';
 import 'package:quran_daily/core/usecase/usecase.dart';
 import 'package:quran_daily/domain/entities/ayah.dart';
-import 'package:quran_daily/domain/repositories/quran_repositories.dart';
+import 'package:quran_daily/domain/repositories/home_repository.dart';
 
 class GetAyahs implements UseCase<List<Ayah>, GetAyahsParams> {
-  final QuranRepository repository;
+  final HomeRepository repository;
 
   GetAyahs(this.repository);
 
   @override
-  Future<Either<Failure, List<Ayah>>> call(GetAyahsParams params) async {
-    return await repository.getAyahsBySurah(params.surahNumber);
+  Future<List<Ayah>> call(GetAyahsParams params) async {
+    throw UnimplementedError();
+    // return await repository.getAyahsBySurah(params.surahNumber);
   }
 }
 

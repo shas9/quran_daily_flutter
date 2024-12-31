@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:quran_daily/presentation/pages/home_page/widgets/home_page.dart';
+import 'package:quran_daily/services/service_container.dart';
 
 void main() {
-  runApp(const MainApp());
+  ServiceContainer.setup();
+  runApp(const QuranDailyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class QuranDailyApp extends StatelessWidget {
+  const QuranDailyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quran_daily/presentation/pages/home_page/bloc/quran_bloc.dart';
+import 'package:quran_daily/presentation/pages/home_page/bloc/home_bloc.dart';
 
 class CustomSearchBar extends StatefulWidget {
   const CustomSearchBar({super.key});
@@ -70,7 +70,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                     icon: const Icon(Icons.clear),
                     onPressed: () {
                       _controller.clear();
-                      context.read<QuranBloc>().add(SearchSurah(query: ''));
+                      context.read<HomeBloc>().add(SearchSurah(''));
                     },
                   )
                 : null,
@@ -87,7 +87,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           ),
           onChanged: (query) {
             setState(() {}); // To update clear button visibility
-            context.read<QuranBloc>().add(SearchSurah(query: query));
+            context.read<HomeBloc>().add(SearchSurah(query));
           },
           textInputAction: TextInputAction.search,
           onSubmitted: (_) => _focusNode.unfocus(),

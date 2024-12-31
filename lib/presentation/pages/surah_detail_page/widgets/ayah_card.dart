@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_daily/domain/entities/ayah.dart';
-import 'package:quran_daily/presentation/pages/home_page/bloc/quran_bloc.dart';
+import 'package:quran_daily/presentation/pages/home_page/bloc/home_bloc.dart';
 
 class AyahCard extends StatelessWidget {
   final Ayah ayah;
@@ -34,12 +34,7 @@ class AyahCard extends StatelessWidget {
                     ayah.isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                   ),
                   onPressed: () {
-                    context.read<QuranBloc>().add(
-                          SetAyahBookmark(
-                            surahNumber: surahNumber,
-                            ayahNumber: ayah.number,
-                          ),
-                        );
+                    
                   },
                 ),
               ],

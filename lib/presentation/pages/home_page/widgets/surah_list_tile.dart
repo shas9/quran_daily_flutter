@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:quran_daily/domain/entities/surah.dart';
-import 'package:quran_daily/presentation/pages/home_page/bloc/quran_bloc.dart';
+import 'package:quran_daily/presentation/pages/home_page/bloc/home_bloc.dart';
 import 'package:quran_daily/presentation/pages/surah_detail_page/widgets/surah_detail_page.dart';
 
 class SurahListTile extends StatelessWidget {
   final Surah surah;
-  final QuranBloc quranBloc;
+  final HomeBloc homeBloc;
 
-  const SurahListTile({super.key, required this.surah, required this.quranBloc});
+  const SurahListTile({super.key, required this.surah, required this.homeBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -67,29 +67,13 @@ class SurahListTile extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text(
-                              surah.arabicName,
-                              textDirection: TextDirection.rtl,
-                              style: const TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
+                            Expanded(
                               child: Text(
-                                surah.revelationType,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Theme.of(context).primaryColor,
+                                surah.arabicName,
+                                textDirection: TextDirection.ltr,
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -135,6 +119,24 @@ class SurahListTile extends StatelessWidget {
                           color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
                         ),
                       ),
+                      const SizedBox(height: 4),
+                      Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                surah.revelationType,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                 ],
