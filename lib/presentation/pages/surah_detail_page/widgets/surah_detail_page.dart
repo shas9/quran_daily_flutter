@@ -4,9 +4,18 @@ import 'package:quran_daily/domain/entities/surah.dart';
 import 'package:quran_daily/presentation/pages/surah_detail_page/widgets/ayah_card.dart';
 
 class SurahDetailPage extends StatelessWidget {
-  final Surah surah;
+  late Surah surah;
 
-  const SurahDetailPage({super.key, required this.surah});
+  SurahDetailPage({super.key, required int surahNumber}) {
+    surah = Surah(
+      number: surahNumber,
+      nativeName: 'Al-Fatihah',
+      nativeTitle: 'The Opening',
+      arabicName: 'الفاتحة',
+      revelationType: 'The Opening',
+      numberOfAyahs: 7,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quran_daily/presentation/pages/home_page/widgets/home_page.dart';
+import 'package:quran_daily/core/router/app_router.dart';
 import 'package:quran_daily/services/service_container.dart';
 
 void main() {
@@ -12,8 +12,11 @@ class QuranDailyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomePage()
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerDelegate: AppRouter.router.routerDelegate,
+      routeInformationParser: AppRouter.router.routeInformationParser,
+      routeInformationProvider: AppRouter.router.routeInformationProvider,
     );
   }
 }

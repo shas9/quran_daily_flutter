@@ -33,7 +33,7 @@ class SurahListTile extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SurahDetailPage(surah: surah),
+                  builder: (context) => SurahDetailPage(surahNumber: 25),
                 ),
               );
             },
