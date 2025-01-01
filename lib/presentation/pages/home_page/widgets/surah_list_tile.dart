@@ -3,7 +3,6 @@ import 'package:quran_daily/core/router/app_router.dart';
 import 'package:quran_daily/core/router/route_names.dart';
 import 'package:quran_daily/domain/entities/surah.dart';
 import 'package:quran_daily/presentation/pages/home_page/bloc/home_bloc.dart';
-import 'package:quran_daily/presentation/pages/surah_detail_page/widgets/surah_detail_page.dart';
 
 class SurahListTile extends StatelessWidget {
   final Surah surah;
@@ -17,11 +16,22 @@ class SurahListTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
+          gradient: LinearGradient(
+            colors: [
+              const Color(0xFF1F4C6B).withOpacity(0.35),
+              const Color(0xFF1F4C6B).withOpacity(0.15),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color: const Color(0xFF1F4C6B).withOpacity(0.1),
+            width: 1,
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.15),
+              color: const Color(0xFF1F4C6B).withOpacity(0.1),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -31,30 +41,24 @@ class SurahListTile extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             borderRadius: BorderRadius.circular(15),
-            onTap: () {
-              AppRouter.navigate(RouteNames.surahDetails, pathParameters: {
-                AppRouter.surahNumberKey: surah.number.toString(),
-              });
-            },
+            onTap: () => _navigateToSurahDetail(),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 45,
-                    height: 45,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
-                      shape: BoxShape.circle,
+                      color: Colors.white.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
                       child: Text(
-                        '${surah.number}',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                        surah.number.toString(),
+                        style: const TextStyle(
+                          color: Color(0xFF1F4C6B),
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -71,6 +75,7 @@ class SurahListTile extends StatelessWidget {
                                 surah.arabicName,
                                 textDirection: TextDirection.ltr,
                                 style: const TextStyle(
+                                  color: Color(0xFF1F4C6B),
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -82,6 +87,7 @@ class SurahListTile extends StatelessWidget {
                         Text(
                           surah.nativeName,
                           style: const TextStyle(
+                            color: Color(0xFF1F4C6B),
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -125,14 +131,15 @@ class SurahListTile extends StatelessWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                color: const Color(0xFF1F4C6B).withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
                                 surah.revelationType,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12,
-                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF1F4C6B)
                                 ),
                               ),
                             ),
@@ -145,5 +152,11 @@ class SurahListTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _navigateToSurahDetail() {
+    AppRouter.navigate(RouteNames.surahDetails, pathParameters: {
+      AppRouter.surahNumberKey: surah.number.toString(),
+    });
   }
 }

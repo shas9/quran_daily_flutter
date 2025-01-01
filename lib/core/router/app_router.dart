@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:quran_daily/core/router/path_names.dart';
 import 'package:quran_daily/core/router/route_names.dart';
 import 'package:quran_daily/presentation/nav_bar/nav_bar.dart';
+import 'package:quran_daily/presentation/pages/bookmark_page/widgets/bookmark_page.dart';
 import 'package:quran_daily/presentation/pages/home_page/widgets/home_page.dart';
+import 'package:quran_daily/presentation/pages/settings_page/widgets/settings_page.dart';
 import 'package:quran_daily/presentation/pages/splash_page/widgets/splash_page.dart';
 import 'package:quran_daily/presentation/pages/surah_detail_page/widgets/surah_detail_page.dart';
 
@@ -93,8 +95,8 @@ class AppRouter {
             name: RouteNames.bookmarkPage,
             path: PathNames.bookmarkPage,
             pageBuilder: (BuildContext context, GoRouterState state) {
-              return NoTransitionPage(
-                child: HomePage(),
+              return const NoTransitionPage(
+                child: BookmarkPage(),
               );
             },
           ),
@@ -103,8 +105,8 @@ class AppRouter {
             name: RouteNames.settings,
             path: PathNames.settings,
             pageBuilder: (BuildContext context, GoRouterState state) {
-              return NoTransitionPage(
-                child: HomePage(),
+              return const NoTransitionPage(
+                child: SettingsPage(),
               );
             },
           ),

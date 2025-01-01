@@ -43,10 +43,14 @@ class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
       drawerEnableOpenDragGesture: false,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          gradient: const LinearGradient(
+            colors: [Color(0xFF1F4C6B), Color(0xFF2C6E9B)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF1F4C6B).withOpacity(0.1),
+              color: const Color(0xFF1F4C6B).withOpacity(0.2),
               blurRadius: 20,
               offset: const Offset(0, -5),
             ),
@@ -54,7 +58,7 @@ class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
         ),
         child: SafeArea(
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 12),
             child: TabBar(
               controller: controller,
               indicatorColor: Colors.transparent,
@@ -88,38 +92,36 @@ class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
 
   Widget _buildNavItem(IconData icon, String label, bool isSelected) {
     return Tab(
-      height: 64,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: isSelected
-              ? const LinearGradient(
-                  colors: [Color(0xFF1F4C6B), Color(0xFF2C6E9B)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                )
-              : null,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: isSelected ? Colors.white : const Color(0xFF1F4C6B),
-              size: 24,
+      height: 56,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: isSelected ? Colors.white : Colors.white70,
+            size: 24,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+              color: isSelected ? Colors.white : Colors.white70,
             ),
+          ),
+          if (isSelected) ...[
             const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: isSelected ? Colors.white : const Color(0xFF1F4C6B),
+            Container(
+              width: 5,
+              height: 5,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
               ),
             ),
           ],
-        ),
+        ],
       ),
     );
   }

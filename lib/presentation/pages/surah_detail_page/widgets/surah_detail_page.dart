@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:quran_daily/data/models/surah_details_model.dart';
+import 'package:quran_daily/presentation/base/base_page.dart';
 import 'package:quran_daily/presentation/pages/surah_detail_page/bloc/surah_detail_bloc.dart';
 import 'package:quran_daily/presentation/pages/surah_detail_page/widgets/ayah_card.dart';
 
@@ -15,71 +16,65 @@ class SurahDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color(0xFF1F4C6B),
-        title: BlocBuilder<SurahDetailBloc, SurahDetailState>(
-          bloc: surahDetailBloc,
-          builder: (context, state) {
-            if (state is SurahDetailLoaded) {
-              return Text(
-                state.surahDetailsModel.englishName,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
-            }
-            return const Text('Loading...', style: TextStyle(color: Colors.white));
-          },
-        ),
-      ),
-      body: BlocConsumer<SurahDetailBloc, SurahDetailState>(
-        bloc: surahDetailBloc,
-        listener: (context, state) {
-          if (state is SurahDetailError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Error: ${state.message}')),
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is SurahDetailLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is SurahDetailError) {
-            return Center(child: Text('Error: ${state.message}'));
-          } else if (state is SurahDetailLoaded) {
-            return CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: _buildSurahHeader(state.surahDetailsModel),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => AyahCard(
-                      ayah: state.surahDetailsModel.ayahs[index],
+    return BlocConsumer<SurahDetailBloc, SurahDetailState>(
+      bloc: surahDetailBloc,
+      listener: (context, state) {
+        if (state is SurahDetailError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${state.message}')),
+          );
+        }
+      },
+      builder: (context, state) {
+        return BasePage(
+          title: state is SurahDetailLoaded 
+            ? state.surahDetailsModel.englishName 
+            : 'Loading...',
+          showBackButton: true,
+          body: Builder(
+            builder: (context) {
+              if (state is SurahDetailLoading) {
+                return const Center(child: CircularProgressIndicator(
+                  color: Color(0xFF1F4C6B),
+                ));
+              } else if (state is SurahDetailError) {
+                return Center(child: Text('Error: ${state.message}'));
+              } else if (state is SurahDetailLoaded) {
+                return CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: _buildSurahHeader(state.surahDetailsModel),
                     ),
-                    childCount: state.surahDetailsModel.ayahs.length,
-                  ),
-                ),
-              ],
-            );
-          }
-          return const Center(child: Text('Unexpected state'));
-        },
-      ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) => AyahCard(
+                          ayah: state.surahDetailsModel.ayahs[index],
+                        ),
+                        childCount: state.surahDetailsModel.ayahs.length,
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return const Center(child: Text('Unexpected state'));
+            },
+          ),
+        );
+      },
     );
   }
 
   Widget _buildSurahHeader(SurahDetailsModel surah) {
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF1F4C6B), Color(0xFF2C6E9B)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1F4C6B),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -98,7 +93,7 @@ class SurahDetailPage extends StatelessWidget {
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 32,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Amiri',
                 ),
               ),
             ),
@@ -121,36 +116,11 @@ class SurahDetailPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          _buildInfoRow(
-            'Revelation Type',
-            surah.revelationType,
-            Icons.history,
-          ),
-          _buildInfoRow(
-            'Number of Verses',
-            '${surah.numberOfAyahs}',
-            Icons.format_list_numbered,
-          ),
-          _buildInfoRow(
-            'Surah Number',
-            '${surah.number}',
-            Icons.bookmark,
-          ),
+          _buildInfoRow('Revelation Type', surah.revelationType, Icons.history),
+          _buildInfoRow('Number of Verses', '${surah.numberOfAyahs}', 
+            Icons.format_list_numbered),
+          _buildInfoRow('Surah Number', '${surah.number}', Icons.bookmark),
           const SizedBox(height: 20),
-          Container(
-            height: 30,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, -5),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
