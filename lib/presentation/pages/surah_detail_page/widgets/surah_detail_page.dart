@@ -93,7 +93,7 @@ class SurahDetailPage extends StatelessWidget {
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 32,
-                  fontFamily: 'Amiri',
+                  fontFamily: 'Amiri_Quran',
                 ),
               ),
             ),

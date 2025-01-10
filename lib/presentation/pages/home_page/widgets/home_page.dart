@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:quran_daily/core/router/app_router.dart';
+import 'package:quran_daily/core/router/route_names.dart';
 import 'package:quran_daily/presentation/base/base_page.dart';
 import 'package:quran_daily/presentation/pages/home_page/bloc/home_bloc.dart';
 import 'package:quran_daily/presentation/pages/home_page/widgets/custom_search_bar.dart';
@@ -24,7 +26,9 @@ class HomePage extends StatelessWidget {
             Icons.bookmark_rounded,
             color: Colors.white,
           ),
-          onPressed: () {},
+          onPressed: () {
+            AppRouter.navigate(RouteNames.bookmarkPage);
+          },
         ),
       ],
       body: Column(

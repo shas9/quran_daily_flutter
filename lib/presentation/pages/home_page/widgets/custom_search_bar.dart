@@ -24,7 +24,7 @@ class CustomSearchBar extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: const Color(0xFF1F4C6B).withOpacity(0.1),
           ),
@@ -57,7 +57,7 @@ class CustomSearchBar extends StatelessWidget {
               vertical: 16,
             ),
           ),
-          cursorColor: const Color(0xFFFFB000),
+          cursorColor: const Color(0xFF1F4C6B),
         ),
       ),
     );

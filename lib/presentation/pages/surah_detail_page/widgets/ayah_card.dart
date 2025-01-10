@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quran_daily/domain/entities/ayah.dart';
+import 'package:quran_daily/presentation/common/custom_quran_card.dart';
 
 class AyahCard extends StatelessWidget {
   final Ayah ayah;
@@ -11,54 +12,56 @@ class AyahCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Ayah ${ayah.number}',
-                  style: Theme.of(context).textTheme.titleMedium,
+    return CustomQuranCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Ayah ${ayah.number}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF1F4C6B),
                 ),
-                IconButton(
-                  icon: Icon(
-                    ayah.isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                  ),
-                  onPressed: () {
-                    
-                  },
+              ),
+              IconButton(
+                icon: Icon(
+                  ayah.isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                  color: const Color(0xFF1F4C6B),
                 ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              ayah.text,
-              style: const TextStyle(
-                fontSize: 24,
-                fontFamily: 'Amiri',
+                onPressed: () {},
               ),
-              textAlign: TextAlign.right,
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            ayah.text,
+            style: const TextStyle(
+              fontSize: 28,
+              fontFamily: 'Amiri',
+              color: Color(0xFF1F4C6B),
             ),
-            const SizedBox(height: 8),
-            Text(
-              ayah.banglaTranslation,
-              style: const TextStyle(fontSize: 16),
+            textAlign: TextAlign.right,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            ayah.banglaPronunciation,
+            style: const TextStyle(
+              fontSize: 16,
+              color: Color(0xFF1F4C6B),
             ),
-            const SizedBox(height: 4),
-            Text(
-              ayah.banglaPronunciation,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            ayah.banglaTranslation,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Color.fromARGB(255, 75, 96, 110),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

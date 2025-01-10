@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quran_daily/core/router/app_router.dart';
 
 // Base page for consistent theming
 class BasePage extends StatelessWidget {
@@ -18,12 +19,20 @@ class BasePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: const Color(0xFF1F4C6B),
-        elevation: 0,
+        elevation: 10,
         centerTitle: true,
-        automaticallyImplyLeading: showBackButton,
+        leading: showBackButton
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                color: Colors.white,
+                onPressed: () {
+                  AppRouter.router.pop();
+                },
+              )
+            : null,
         title: Text(
           title,
           style: const TextStyle(
